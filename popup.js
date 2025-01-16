@@ -1,14 +1,43 @@
 
-function simulateClick(firstName) {
+function simulateClick(firstName, productPrice) {
     console.log("Simulating click and setting input");
 
-    const label = document.querySelector('label[aria-label="Title"]');
-    
-    if (label) {
-        const input = label.querySelector('input');
+    productCondition = "New"
+
+    const title = document.querySelector('label[aria-label="Title"]');
+    const price = document.querySelector('label[aria-label="Price"]');
+    const conditionLabel = document.querySelector('label[aria-label="Condition"]');
         
-        if (input) {
-            input.focus();
+    if (conditionLabel) {
+        conditionLabel.click();
+        
+        setTimeout(() => {
+            // Find the options in the dropdown (div with role="option")
+            const options = document.querySelectorAll('div[role="option"]');
+            
+            options.forEach(option => {
+                // Check if the option text content matches the desired condition
+                const optionText = option.querySelector('span').textContent.trim();
+                
+                if (optionText === productCondition) {
+                    // Click the option to select it
+                    option.click();
+                    console.log(`Selected condition: ${productCondition}`);
+                }
+            });
+        }, 300); // Wait for the dropdown to open before selecting
+
+    } else {
+        console.log('Dropdown trigger not found');
+    }
+    
+  
+    
+    if (title) {
+        const titleInput = title.querySelector('input');
+        
+        if (titleInput) {
+            titleInput.focus();
 
             const simulateTyping = (text, element, index = 0) => {
                 if (index < text.length) {
@@ -21,7 +50,32 @@ function simulateClick(firstName) {
                 }
             };
 
-            simulateTyping(firstName, input);
+            simulateTyping(firstName, titleInput);
+        } else {
+            console.log('Input not found within label');
+        }
+    } else {
+        console.log('Label not found');
+    }
+
+    if (price) {
+        const priceInput = price.querySelector('input');
+        
+        if (priceInput) {
+            priceInput.focus();
+
+            const simulateTyping = (text, element, index = 0) => {
+                if (index < text.length) {
+                    element.value += text[index];
+
+                    const event = new Event('input', { bubbles: true });
+                    element.dispatchEvent(event);
+
+                    setTimeout(() => simulateTyping(text, element, index + 1), 100);
+                }
+            };
+
+            simulateTyping(productPrice, priceInput);
         } else {
             console.log('Input not found within label');
         }
@@ -70,7 +124,7 @@ function handleUserClick(user) {
         chrome.scripting.executeScript({
             target: { tabId: tabs[0].id },
             func: simulateClick,
-            args: [user.firstName]
+            args: [user.firstName, "12.26"]
         });
     });
 }
