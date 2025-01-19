@@ -1,36 +1,84 @@
 
-function simulateClick(firstName, productPrice) {
-    console.log("Simulating click and setting input");
+function simulateClick(firstName, productPrice, image) {
 
     productCondition = "New"
+    productCategory = "Tools"
 
     const title = document.querySelector('label[aria-label="Title"]');
     const price = document.querySelector('label[aria-label="Price"]');
     const conditionLabel = document.querySelector('label[aria-label="Condition"]');
+    const categoryBox = document.querySelector('label[aria-label="Category"]');
         
     if (conditionLabel) {
         conditionLabel.click();
         
         setTimeout(() => {
-            // Find the options in the dropdown (div with role="option")
             const options = document.querySelectorAll('div[role="option"]');
             
             options.forEach(option => {
-                // Check if the option text content matches the desired condition
                 const optionText = option.querySelector('span').textContent.trim();
                 
                 if (optionText === productCondition) {
-                    // Click the option to select it
                     option.click();
                     console.log(`Selected condition: ${productCondition}`);
                 }
             });
-        }, 300); // Wait for the dropdown to open before selecting
+        }, 300);
 
     } else {
         console.log('Dropdown trigger not found');
     }
-    
+
+
+    if (categoryBox) {
+        categoryBox.click();
+
+        setTimeout(() => {
+            const options = document.querySelectorAll('div[role="dialog"] div');
+
+            options.forEach(option => {
+                const optionText = option.querySelector('span')?.textContent.trim();
+
+                if (optionText === productCategory) {
+                    option.click();
+                    console.log(`Selected category: ${productCategory}`);
+                }
+            });
+        }, 300);
+
+    } else {
+        console.log('Category trigger not found');
+    }
+
+    // Running after category box is closed
+    setTimeout(() => {
+        const desciptionBox = document.querySelector('label[aria-label="Description"]');
+
+        if (desciptionBox) {
+            const descriptionInput = desciptionBox.querySelector('textarea');
+            
+            if (descriptionInput) {
+                descriptionInput.focus();
+
+                const simulateTyping = (text, element, index = 0) => {
+                    if (index < text.length) {
+                        element.value += text[index];
+
+                        const event = new Event('input', { bubbles: true });
+                        element.dispatchEvent(event);
+
+                        setTimeout(() => simulateTyping(text, element, index + 1), 100);
+                    }
+                };
+
+                simulateTyping("productPrice", descriptionInput);
+            } else {
+                console.log('Input not found within label');
+            }
+        } else {
+            console.log('Label not found');
+        }
+    }, 2000)
   
     
     if (title) {
@@ -82,6 +130,65 @@ function simulateClick(firstName, productPrice) {
     } else {
         console.log('Label not found');
     }
+
+    
+
+    var images = [
+        'https://dummyjson.com/icon/emilys/128',
+        'https://dummyjson.com/icon/johnd/128',
+        'https://dummyjson.com/icon/michaelj/128',
+    ];
+
+    async function processImages(images) {
+        try {
+            const promises = images.map(imageUrl => simulateDragAndDrop(imageUrl));
+            await Promise.all(promises);
+            console.log('All images have been processed.');
+        } catch (error) {
+            console.error('Error processing images:', error);
+        }
+    }
+    
+    processImages(images);
+
+    async function simulateDragAndDrop(imageUrl) {
+
+        try {
+            const response = await fetch(imageUrl);
+            if (!response.ok) {
+                throw new Error('Failed to fetch the image');
+            }
+            const blob = await response.blob();
+    
+            const file = new File([blob], "image.jpeg", { type: 'image/jpeg' });
+    
+            const dataTransfer = new DataTransfer();
+            dataTransfer.items.add(file);
+    
+            const dragEvent = new DragEvent("drop", {
+                dataTransfer: dataTransfer,
+                bubbles: true,
+                cancelable: true
+            });
+    
+            const spans = document.querySelectorAll('span');
+            let uploadArea = Array.from(spans).find(span => span.textContent.includes("or drag and drop"));
+    
+            if (!uploadArea) {
+                uploadArea = Array.from(spans).find(span => span.textContent.includes("Add photo"));
+            }
+    
+            if (uploadArea) {
+                uploadArea.dispatchEvent(dragEvent);
+                console.log("Simulated drag and drop event triggered!");
+            } else {
+                console.error("Upload area element not found.");
+            }
+    
+        } catch (error) {
+            console.error("Error:", error);
+        }
+    }
 }
 
 
@@ -124,9 +231,11 @@ function handleUserClick(user) {
         chrome.scripting.executeScript({
             target: { tabId: tabs[0].id },
             func: simulateClick,
-            args: [user.firstName, "12.26"]
+            args: [user.firstName, "12.26", user.image]
+            
         });
     });
 }
 
 fetchUserData();
+
