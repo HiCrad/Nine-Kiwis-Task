@@ -1,5 +1,5 @@
 
-function processSalePost(productTitle, productPrice) {
+function processSalePost(productTitle, productPrice, images) {
 
     productCondition = "New"
     productCategory = "Tools"
@@ -131,13 +131,7 @@ function processSalePost(productTitle, productPrice) {
         console.log('Label not found');
     }
 
-    
-
-    var images = [
-        'https://dummyjson.com/icon/emilys/128',
-        'https://dummyjson.com/icon/johnd/128',
-        'https://dummyjson.com/icon/michaelj/128',
-    ];
+    console.log(typeof(images))
 
     async function processImages(images) {
         try {
@@ -154,7 +148,10 @@ function processSalePost(productTitle, productPrice) {
     async function simulateDragAndDrop(imageUrl) {
 
         try {
-            const response = await fetch(imageUrl);
+            const response = await fetch("http://63.142.240.5/"+imageUrl, {
+                method: 'GET',
+                mode: 'no-cors',
+            });
             if (!response.ok) {
                 throw new Error('Failed to fetch the image');
             }
@@ -222,7 +219,7 @@ function handleSalePostClick(post) {
         chrome.scripting.executeScript({
             target: { tabId: tabs[0].id },
             func: processSalePost,
-            args: [post.title, post.price]
+            args: [post.title, post.price, post.photos]
             
         });
     });

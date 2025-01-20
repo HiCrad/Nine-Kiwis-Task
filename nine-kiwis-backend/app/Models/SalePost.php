@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class SalePost extends Model
 {
@@ -25,7 +26,7 @@ class SalePost extends Model
 
     protected $casts = [
         'price' => 'decimal:2',
-        'photos' => 'array',
+        // 'photos' => 'array',
     ];
 
     public function getStatusAttribute($value)
@@ -41,5 +42,21 @@ class SalePost extends Model
     public function scopePending($query)
     {
         return $query->where('status', self::STATUS_PENDING);
+    }
+
+    /**
+     * Get the photos attribute as an array of full URLs.
+     */
+    public function getPhotosAttribute($value)
+    {
+        $photoPaths = json_decode($value);
+
+        if (!is_array($photoPaths)) {
+            return [];
+        }
+
+        return array_map(function ($photo) {
+            return Storage::url($photo);
+        }, $photoPaths);
     }
 }

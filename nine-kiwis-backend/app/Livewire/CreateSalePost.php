@@ -19,9 +19,8 @@ class CreateSalePost extends Component
     public $brand;
     public $description;
     public $tags;
-    public $status = 'Pending'; // Default status to 'Pending'
+    public $status = 'Pending';
 
-    // Validation rules
     protected $rules = [
         'title' => 'required|string|max:255',
         'price' => 'required|numeric|min:0',
@@ -31,42 +30,39 @@ class CreateSalePost extends Component
         'brand' => 'nullable|string|max:100',
         'description' => 'nullable|string',
         'tags' => 'nullable|string',
-        'status' => 'in:Pending,Sold',  // Ensure status is either Pending or Sold
+        'status' => 'in:Pending,Sold',
     ];
 
     public function store()
     {
-        $this->validate();  // Validate input data
+        $this->validate();
 
         $photoPaths = [];
         if ($this->photos) {
             foreach ($this->photos as $photo) {
-                $photoPaths[] = $photo->store('sale_posts', 'public'); // Store in 'storage/app/public/sale_posts'
+                $photoPaths[] = $photo->store('sale_posts', 'public');
             }
         }
 
-        // Create a new SalePost record
         SalePost::create([
             'title' => $this->title,
             'price' => $this->price,
             'category' => $this->category,
             'condition' => $this->condition,
-            'photos' => json_encode($photoPaths), // Store the photo paths as a JSON array
+            'photos' => json_encode($photoPaths),
             'brand' => $this->brand,
             'description' => $this->description,
             'tags' => $this->tags,
             'status' => $this->status,
-            'user_id' => 1,  // Assume user is logged in and save their ID
+            'user_id' => 1,
         ]);
 
-        // Reset fields after submission
         $this->reset();
 
-        // Optionally, you can send a success message
         session()->flash('message', 'Sale post created successfully!');
     }
 
-    #[Title('Create Sale Post | Nine Kiwis - Delowar')] 
+    #[Title('Create Sale Post | - Delowar')] 
     public function render()
     {
         return view('livewire.create-sale-post');

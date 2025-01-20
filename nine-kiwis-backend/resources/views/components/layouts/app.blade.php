@@ -13,7 +13,7 @@
     </head>
     <body>
         
-        <div class="bg-slate-100">
+        <div class="bg-slate-100 min-h-screen">
             <div class="p-6">
                 {{ $slot }}
             </div>

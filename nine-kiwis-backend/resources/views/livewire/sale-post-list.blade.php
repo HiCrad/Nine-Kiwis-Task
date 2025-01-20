@@ -1,5 +1,5 @@
-<div>
-    <h2 class="text-xl font-semibold mb-4">Sale Posts</h2>
+<div class="mx-3 lg:mx-12 p-6 bg-white shadow-md rounded-lg">
+    {{-- <h2 class="text-xl font-semibold mb-4">Sale Posts</h2> --}}
 
     <!-- Display success message -->
     @if (session()->has('message'))
