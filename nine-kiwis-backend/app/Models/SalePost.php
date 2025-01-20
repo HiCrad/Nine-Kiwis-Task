@@ -26,7 +26,7 @@ class SalePost extends Model
 
     protected $casts = [
         'price' => 'decimal:2',
-        // 'photos' => 'array',
+        'photos' => 'array',
     ];
 
     public function getStatusAttribute($value)
@@ -55,7 +55,7 @@ class SalePost extends Model
     }
 
     /**
-     * Get the photos attribute as an array of full URLs.
+     * Get the photos attribute as an array.
      */
     public function getPhotosAttribute($value)
     {
@@ -66,7 +66,7 @@ class SalePost extends Model
         }
 
         return array_map(function ($photo) {
-            return Storage::url($photo);
+            return $photo;
         }, $photoPaths);
     }
 }

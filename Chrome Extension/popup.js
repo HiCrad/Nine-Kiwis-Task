@@ -1,7 +1,7 @@
 
 function processSalePost(post) {
 
-    const { title: productTitle, price: productPrice, description: productDescription } = post;
+    const { title: productTitle, price: productPrice, description: productDescription, photos:images } = post;
 
     productCondition = "New"
     productCategory = "Tools"
@@ -133,17 +133,6 @@ function processSalePost(post) {
         console.log('Label not found');
     }
 
-    var images = [
-        'https://images.unsplash.com/photo-1697981812520-d1e056308e52?q=80&w=2537&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-        'https://images.unsplash.com/photo-1655356392708-c675781f1748?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-        'https://images.unsplash.com/photo-1680340006976-932129451742?q=80&w=2669&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-
-        'https://images.unsplash.com/photo-1689922717394-6027538346a5?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-        'https://images.unsplash.com/photo-1689922718488-e17edecf9827?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-        'https://images.unsplash.com/photo-1689922717388-2efbe07cbce5?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
-
-    ];
-
     async function processImages(images) {
         try {
             const promises = images.map(imageUrl => simulateDragAndDrop(imageUrl));
@@ -159,7 +148,7 @@ function processSalePost(post) {
     async function simulateDragAndDrop(imageUrl) {
 
         try {
-            const response = await fetch(imageUrl, {
+            const response = await fetch('http://localhost:8000/api/get-image?filepath='+imageUrl, {
                 cors: 'no-cors'
             });
             if (!response.ok) {

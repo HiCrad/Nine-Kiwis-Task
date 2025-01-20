@@ -21,6 +21,12 @@ class CreateSalePost extends Component
     public $tags;
     public $status = 'Pending';
 
+    /**
+     * Validation rules for the input fields.
+     *
+     * @var array
+     */
+
     protected $rules = [
         'title' => 'required|string|max:255',
         'price' => 'required|numeric|min:0',
@@ -33,6 +39,11 @@ class CreateSalePost extends Component
         'status' => 'in:Pending,Sold',
     ];
 
+    /**
+     * Store the sale post data to the database and handle file uploads.
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function store()
     {
         $this->validate();
@@ -60,9 +71,16 @@ class CreateSalePost extends Component
         $this->reset();
 
         session()->flash('message', 'Sale post created successfully!');
+
+        return  redirect()->route('sale-posts.index');
     }
 
-    #[Title('Create Sale Post | - Delowar')] 
+    /**
+     * Render the create sale post view.
+     *
+     * @return \Illuminate\View\View
+     */
+    #[Title('Create Sale Post | Nine Kiwiws - Delowar')] 
     public function render()
     {
         return view('livewire.create-sale-post');

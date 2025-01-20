@@ -1,11 +1,21 @@
 <div class="mx-3 lg:mx-12 p-6 bg-white shadow-md rounded-lg">
-    <h2 class="text-xl font-semibold text-center mb-6">Create a New Sale Post</h2>
 
     @if (session()->has('message'))
         <div class="p-4 mb-2 text-white bg-green-500 rounded">
             {{ session('message') }}
         </div>
     @endif
+
+    <div class="mb-4 flex justify-between items-center">
+        <h1 class="text-2xl font-bold text-gray-800">Create New Sale Post</h1>
+        <a href="{{ route('sale-posts.index') }}" class="p-2 rounded-md bg-indigo-500 text-white hover:bg-indigo-700 duration-200 ease-linear mt-2 inline-block">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125" />
+            </svg>              
+        </a>
+    </div>
+
+    <hr class="my-4 border border-gray-300">
 
     <form wire:submit.prevent="store">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
