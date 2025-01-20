@@ -22,6 +22,8 @@ class SalePostList extends Component
         $salePost->status = $status;
         $salePost->save();
 
+        $this->salePosts->where('id', $postId)->first()->status = $status;
+
         // Optionally, you can flash a success message here
         session()->flash('message', 'Status updated successfully!');
     }

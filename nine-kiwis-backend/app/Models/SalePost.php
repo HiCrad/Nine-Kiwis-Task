@@ -37,4 +37,9 @@ class SalePost extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function scopePending($query)
+    {
+        return $query->where('status', self::STATUS_PENDING);
+    }
 }
