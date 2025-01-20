@@ -1,5 +1,7 @@
 
-function processSalePost(productTitle, productPrice, images) {
+function processSalePost(post) {
+
+    const { title: productTitle, price: productPrice, description: productDescription } = post;
 
     productCondition = "New"
     productCategory = "Tools"
@@ -71,7 +73,7 @@ function processSalePost(productTitle, productPrice, images) {
                     }
                 };
 
-                simulateTyping("productPrice", descriptionInput);
+                simulateTyping(productDescription, descriptionInput);
             } else {
                 console.log('Input not found within label');
             }
@@ -132,7 +134,14 @@ function processSalePost(productTitle, productPrice, images) {
     }
 
     var images = [
-        'https://images.unsplash.com/photo-1709884735017-114f4a31f944?q=80&w=2458&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+        'https://images.unsplash.com/photo-1697981812520-d1e056308e52?q=80&w=2537&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+        'https://images.unsplash.com/photo-1655356392708-c675781f1748?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+        'https://images.unsplash.com/photo-1680340006976-932129451742?q=80&w=2669&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+
+        'https://images.unsplash.com/photo-1689922717394-6027538346a5?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+        'https://images.unsplash.com/photo-1689922718488-e17edecf9827?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+        'https://images.unsplash.com/photo-1689922717388-2efbe07cbce5?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+
     ];
 
     async function processImages(images) {
@@ -150,7 +159,9 @@ function processSalePost(productTitle, productPrice, images) {
     async function simulateDragAndDrop(imageUrl) {
 
         try {
-            const response = await fetch(imageUrl);
+            const response = await fetch(imageUrl, {
+                cors: 'no-cors'
+            });
             if (!response.ok) {
                 throw new Error('Failed to fetch the image');
             }
@@ -218,7 +229,7 @@ function handleSalePostClick(post) {
         chrome.scripting.executeScript({
             target: { tabId: tabs[0].id },
             func: processSalePost,
-            args: [post.title, post.price, post.photos]
+            args: [post]
             
         });
     });
