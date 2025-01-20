@@ -13,14 +13,20 @@
             list-style-type: none;
             padding: 0;
         }
+        ul {
+            margin: 0;
+            padding: 0;
+        }
         li {
+            background-color: skyblue;
             cursor: pointer;
             margin: 5px 0;
             padding: 5px;
             border: 1px solid #ddd;
+            list-style-type: none;
         }
         li:hover {
-            background-color: #f0f0f0;
+            background-color: rgb(70, 203, 255);
         }
         h3,p {
             margin: 0;
@@ -33,7 +39,7 @@
     <h3>Welcome to Facebook Marketplace!</h3>
     <p>Delowar Hossain</p>
 
-    <h3 style="margin: 15px 0">User List</h3>
+    <h3 style="margin: 15px 0">Pending Sale Post List</h3>
     <ul id="salePostElement">
       <!-- User Sale Post list will be populated here -->
     </ul>

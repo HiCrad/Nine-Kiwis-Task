@@ -34,6 +34,16 @@ class SalePost extends Model
         return $value == self::STATUS_PENDING ? 'Pending' : 'Sold';
     }
 
+    public function setStatusAttribute($value)
+    {
+        if ($value == 'Pending') {
+            $this->attributes['status'] = self::STATUS_PENDING;
+        } elseif ($value == 'Sold') {
+            $this->attributes['status'] = self::STATUS_SOLD;
+        }
+    }
+
+
     public function user()
     {
         return $this->belongsTo(User::class);

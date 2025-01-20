@@ -131,7 +131,9 @@ function processSalePost(productTitle, productPrice, images) {
         console.log('Label not found');
     }
 
-    console.log(typeof(images))
+    var images = [
+        'https://images.unsplash.com/photo-1709884735017-114f4a31f944?q=80&w=2458&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+    ];
 
     async function processImages(images) {
         try {
@@ -148,10 +150,7 @@ function processSalePost(productTitle, productPrice, images) {
     async function simulateDragAndDrop(imageUrl) {
 
         try {
-            const response = await fetch("http://63.142.240.5/"+imageUrl, {
-                method: 'GET',
-                mode: 'no-cors',
-            });
+            const response = await fetch(imageUrl);
             if (!response.ok) {
                 throw new Error('Failed to fetch the image');
             }
@@ -202,9 +201,9 @@ function fetchUserSalePostsData() {
 function populateUserList(salePosts) {
     const salePostElement = document.getElementById('salePostElement');
 
-    salePosts.forEach((post) => {
+    salePosts.forEach((post, index) => {
         const li = document.createElement('li');
-        li.textContent = `${post.title} - ${post.category}`;
+        li.textContent = `${index+1}.${post.title} - ${post.category}`;
 
         li.addEventListener('click', () => {
             handleSalePostClick(post);
