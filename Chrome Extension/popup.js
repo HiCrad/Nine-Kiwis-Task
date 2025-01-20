@@ -1,5 +1,5 @@
 
-function simulateClick(firstName, productPrice, image) {
+function processSalePost(productTitle, productPrice) {
 
     productCondition = "New"
     productCategory = "Tools"
@@ -98,7 +98,7 @@ function simulateClick(firstName, productPrice, image) {
                 }
             };
 
-            simulateTyping(firstName, titleInput);
+            simulateTyping(productTitle, titleInput);
         } else {
             console.log('Input not found within label');
         }
@@ -192,50 +192,41 @@ function simulateClick(firstName, productPrice, image) {
 }
 
 
-function fetchUserData() {
-    chrome.runtime.sendMessage({ action: "fetchUsers" }, (response) => {
+function fetchUserSalePostsData() {
+    chrome.runtime.sendMessage({ action: "fetchUserPendingSalePosts" }, (response) => {
         if (response.success) {
-            populateUserList(response.data.users);
+            populateUserList(response.data);
         } else {
-            console.error('Error fetching users:', response.error);
+            console.error("Error fetching user's sale posts :", response.error);
         }
     });
 }
 
-function populateUserList(users) {
-    const userList = document.getElementById('userList');
+function populateUserList(salePosts) {
+    const salePostElement = document.getElementById('salePostElement');
 
-    users.forEach((user) => {
+    salePosts.forEach((post) => {
         const li = document.createElement('li');
-        li.textContent = `${user.firstName} ${user.lastName}`;
+        li.textContent = `${post.title} - ${post.category}`;
 
         li.addEventListener('click', () => {
-            handleUserClick(user);
+            handleSalePostClick(post);
         });
 
-        userList.appendChild(li);
+        salePostElement.appendChild(li);
     });
 }
 
-function handleUserClick(user) {
-    const userDetails = `
-        Name: ${user.firstName} ${user.lastName}
-        Email: ${user.email}
-        Phone: ${user.phone}
-        Address: ${user.address.address}, ${user.address.city}, ${user.address.state}, ${user.address.country}
-        Company: ${user.company.name}, Role: ${user.company.title}
-        Crypto: ${user.crypto.coin}, Wallet: ${user.crypto.wallet}
-    `;
-
+function handleSalePostClick(post) {
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
         chrome.scripting.executeScript({
             target: { tabId: tabs[0].id },
-            func: simulateClick,
-            args: [user.firstName, "12.26", user.image]
+            func: processSalePost,
+            args: [post.title, post.price]
             
         });
     });
 }
 
-fetchUserData();
+fetchUserSalePostsData();
 
