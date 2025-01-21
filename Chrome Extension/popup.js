@@ -1,5 +1,3 @@
-const BACKENDSERVER = 'http://localhost:8000/'
-
 function processSalePost(post) {
 
     const { title: productTitle, price: productPrice, description: productDescription, photos:images } = post;
@@ -149,7 +147,7 @@ function processSalePost(post) {
     async function simulateDragAndDrop(imageUrl) {
 
         try {
-            const response = await fetch(BACKENDSERVER+'api/get-image?filepath='+imageUrl, {
+            const response = await fetch('http://localhost:8000/api/get-image?filepath='+imageUrl, {
                 cors: 'no-cors'
             });
             if (!response.ok) {
