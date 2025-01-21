@@ -80,7 +80,7 @@ class CreateSalePost extends Component
      *
      * @return \Illuminate\View\View
      */
-    #[Title('Create Sale Post | Nine Kiwiws - Delowar')] 
+    #[Title('Create Sale Post | Nine Kiwis - Delowar')] 
     public function render()
     {
         return view('livewire.create-sale-post');
