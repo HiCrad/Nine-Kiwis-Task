@@ -60,7 +60,7 @@ class CreateSalePost extends Component
             'price' => $this->price,
             'category' => $this->category,
             'condition' => $this->condition,
-            'photos' => json_encode($photoPaths),
+            'photos' => $photoPaths,
             'brand' => $this->brand,
             'description' => $this->description,
             'tags' => $this->tags,
