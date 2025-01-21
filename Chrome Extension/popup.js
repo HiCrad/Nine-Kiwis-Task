@@ -147,7 +147,7 @@ function processSalePost(post) {
     async function simulateDragAndDrop(imageUrl) {
 
         try {
-            const response = await fetch('http://localhost:8000/api/get-image?filepath='+imageUrl, {
+            const response = await fetch('https://delowar-nk-task.itshikkha.com/api/get-image?filepath='+imageUrl, {
                 cors: 'no-cors'
             });
             if (!response.ok) {

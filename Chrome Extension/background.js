@@ -1,4 +1,4 @@
-const BACKENDSERVER = 'http://localhost:8000/'
+const BACKENDSERVER = 'https://delowar-nk-task.itshikkha.com/'
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.action === "fetchUserPendingSalePosts") {
