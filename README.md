@@ -66,3 +66,6 @@ To load the Chrome extension:
 2. Enable **Developer Mode** in the top right corner.
 3. Click on **Load Unpacked**.
 4. Select the **Chrome-Extension** folder.
+
+### Workflow
+![Description of image](Nine%20Kiwis%20Workflow.png)
